@@ -27,13 +27,13 @@ class UserControllerTest {
     }
 
     @Test
-    void createUserWithInvalidLoginAndNullName() throws ValidationException {
+    void createUserWithInvalidLoginAndNullName() {
         LocalDate localDate = LocalDate.of(2000, 12, 12);
         User invalidUser = new User(1, "maximus123", null, "maximus@example.com", localDate);
 
         Set<ConstraintViolation<User>> violations = validator.validate(invalidUser);
 
-        assertTrue(violations.isEmpty());
+        assertFalse(violations.isEmpty());
         assertThrows(ValidationException.class, () -> userController.addUser(invalidUser));
     }
 
