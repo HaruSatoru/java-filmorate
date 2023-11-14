@@ -36,14 +36,16 @@ public class FilmController {
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film film) throws ValidationException {
         if (!films.containsKey(film.getId())) {
-            log.error("Film with id " + film.getId() + " not found");
+            log.error("Film with id {} not found", film.getId());
             throw new ValidationException("Invalid film id: " + film.getId());
         }
 
-        films.replace(film.getId(), film);
-        log.info("Film with id " + film.getId() + " updated");
+
+        films.put(film.getId(), film);
+        log.info("Film with id {} updated", film.getId());
         return film;
     }
+
 
     private static void validateFilm(Film film) throws ValidationException {
         LocalDate birthDayFilm = LocalDate.of(1895, 12, 28);

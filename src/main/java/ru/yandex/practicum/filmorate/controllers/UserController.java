@@ -44,10 +44,12 @@ public class UserController {
             throw new ValidationException("Invalid user id: " + user.getId());
         }
 
-        users.replace(user.getId(), user);
+
+        users.put(user.getId(), user);
         log.info("User information with id {} updated", user.getId());
         return user;
     }
+
 
     public static void validateUser(User user) throws ValidationException {
         String[] usernameParts = user.getLogin().split(" ");
@@ -58,5 +60,3 @@ public class UserController {
         }
     }
 }
-
-
