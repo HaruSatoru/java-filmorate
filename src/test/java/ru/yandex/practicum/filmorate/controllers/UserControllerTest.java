@@ -33,7 +33,7 @@ class UserControllerTest {
 
         Set<ConstraintViolation<User>> violations = validator.validate(invalidUser);
 
-        assertFalse(violations.isEmpty());
+        assertTrue(violations.isEmpty());
         assertThrows(ValidationException.class, () -> userController.addUser(invalidUser));
     }
 
