@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
@@ -34,17 +35,17 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film updateFilm(@Valid @RequestBody Film film) throws ValidationException {
+    public ResponseEntity<Film> updateFilm(@Valid @RequestBody Film film) throws ValidationException {
         if (!films.containsKey(film.getId())) {
             log.error("Film with id {} not found", film.getId());
-            throw new ValidationException("Invalid film id: " + film.getId());
+            return ResponseEntity.notFound().build();
         }
 
-
-        films.put(film.getId(), film);
+        films.replace(film.getId(), film);
         log.info("Film with id {} updated", film.getId());
-        return film;
+        return ResponseEntity.ok(film);
     }
+
 
 
     private static void validateFilm(Film film) throws ValidationException {
