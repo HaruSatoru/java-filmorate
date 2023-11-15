@@ -70,4 +70,3 @@ class UserControllerTest {
         assertFalse(violations.isEmpty());
     }
 }
-

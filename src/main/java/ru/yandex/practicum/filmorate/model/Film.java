@@ -1,7 +1,5 @@
 package ru.yandex.practicum.filmorate.model;
-
 import lombok.*;
-
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
@@ -19,4 +17,3 @@ public class Film {
     @Positive
     private Integer duration;
 }
-

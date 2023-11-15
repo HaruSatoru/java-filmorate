@@ -80,5 +80,3 @@ class FilmControllerTest {
         assertFalse(violations.isEmpty());
     }
 }
-
-

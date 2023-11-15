@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.controllers;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
@@ -39,17 +38,16 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<User> updateUser(@Valid @RequestBody User user) throws ValidationException {
+    public User updateUser(@Valid @RequestBody User user) throws ValidationException {
         if (!users.containsKey(user.getId())) {
             log.error("User with id {} not found", user.getId());
-            return ResponseEntity.notFound().build();
+            throw new ValidationException("Invalid user id: " + user.getId());
         }
 
         users.replace(user.getId(), user);
         log.info("User information with id {} updated", user.getId());
-        return ResponseEntity.ok(user);
+        return user;
     }
-
 
     public static void validateUser(User user) throws ValidationException {
         String[] usernameParts = user.getLogin().split(" ");
