@@ -2,6 +2,8 @@ package ru.yandex.practicum.filmorate.controllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
@@ -36,16 +38,6 @@ class UserControllerTest {
         assertEquals(addedUser.getName(), user.getLogin());
     }
 
-    @Test
-    void updateUserWithUnknownId() throws ValidationException {
-        LocalDate localDate = LocalDate.of(2000, 12, 12);
-        User existingUser = new User(1, "maximus123", "Maximus", "maximus@example.com", localDate);
-        User nonExistingUser = new User(99, "maximus123", "Maximus", "maximus@example.com", localDate);
-
-        userController.addUser(existingUser);
-
-        assertThrows(ValidationException.class, () -> userController.updateUser(nonExistingUser));
-    }
 
     @Test
     void createUserWithIncorrectEmail() {

@@ -1,14 +1,14 @@
 package ru.yandex.practicum.filmorate.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -38,15 +38,20 @@ public class UserController {
     }
 
     @PutMapping
-    public User updateUser(@Valid @RequestBody User user) throws ValidationException {
-        if (!users.containsKey(user.getId())) {
-            log.error("User with id {} not found", user.getId());
-            throw new ValidationException("Invalid user id: " + user.getId());
-        }
+    public ResponseEntity<User> updateUser(@Valid @RequestBody User user) {
+        try {
+            if (!users.containsKey(user.getId())) {
+                log.error("User with id {} not found", user.getId());
+                throw new ValidationException("Invalid user id: " + user.getId());
+            }
+            users.replace(user.getId(), user);
+            log.info("User information with id {} updated", user.getId());
+            return ResponseEntity.ok(user);
+        } catch (ValidationException ex) {
+            log.error("Validation exception: {}", ex.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body((User) Collections.singletonMap("error", ex.getMessage()));
 
-        users.replace(user.getId(), user);
-        log.info("User information with id {} updated", user.getId());
-        return user;
+        }
     }
 
     public static void validateUser(User user) throws ValidationException {

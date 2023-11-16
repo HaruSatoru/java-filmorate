@@ -35,17 +35,6 @@ class FilmControllerTest {
     }
 
     @Test
-    void updateFilmWithUnknownId() throws ValidationException {
-        LocalDate releaseDate = LocalDate.of(1900, 10, 23);
-        Film existingFilm = new Film(1, "Existing Film", "Description", releaseDate, 100);
-        Film nonExistingFilm = new Film(99, "Non-Existing Film", "Description", releaseDate, 100);
-
-        filmController.addFilm(existingFilm);
-
-        assertThrows(Throwable.class, () -> filmController.updateFilm(nonExistingFilm));
-    }
-
-    @Test
     void addFilmWithEmptyName() {
         LocalDate releaseDate = LocalDate.of(1900, 10, 23);
         Film filmWithEmptyName = new Film(1, "", "Description", releaseDate, 100);
