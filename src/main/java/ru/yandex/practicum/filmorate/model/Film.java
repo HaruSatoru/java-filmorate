@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"id"})
+@EqualsAndHashCode
 public class Film {
     private Integer id;
     @NotBlank
