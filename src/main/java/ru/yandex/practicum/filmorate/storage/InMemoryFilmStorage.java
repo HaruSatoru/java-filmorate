@@ -22,6 +22,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     public Collection<Film> getAllFilms() {
         return films.values();
     }
+
     private void handleInvalidFilm(Film film) {
         String errorMessage = "";
 
