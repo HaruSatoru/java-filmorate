@@ -25,6 +25,7 @@ public class InMemoryUserStorage implements UserStorage {
     public Collection<User> getAllUsers() {
         return users.values();
     }
+
     private void handleInvalidUser(User user) {
         List<String> validationErrors = new ArrayList<>();
 
