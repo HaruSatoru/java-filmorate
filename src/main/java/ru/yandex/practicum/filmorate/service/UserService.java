@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
@@ -13,13 +13,9 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserService {
     private final UserStorage userStorage;
-
-    @Autowired
-    public UserService(UserStorage userStorage) {
-        this.userStorage = userStorage;
-    }
 
     public List<User> getAllUsers() {
         return new ArrayList<>(userStorage.getAllUsers());
@@ -37,12 +33,12 @@ public class UserService {
         User user = getUserById(userId);
         User friend = getUserById(friendId);
         if (addFriendship) {
-            user.getFriends().add(friendId);
-            friend.getFriends().add(userId);
+            user.getFriendIds().add(friendId);
+            friend.getFriendIds().add(userId);
             log.debug("User with id =" + userId + " added friend with id =" + friendId);
         } else {
-            user.getFriends().remove(friendId);
-            friend.getFriends().remove(userId);
+            user.getFriendIds().remove(friendId);
+            friend.getFriendIds().remove(userId);
             log.debug("Friend with id =" + friendId + " removed from user with id =" + userId);
         }
         updateUser(user);
@@ -60,15 +56,15 @@ public class UserService {
     }
 
     public List<User> getUserFriends(Integer userId) {
-        Set<Integer> friendsIds = getUserById(userId).getFriends();
+        Set<Integer> friendsIds = getUserById(userId).getFriendIds();
         return getAllUsers().stream()
                 .filter(user -> friendsIds.contains(user.getId()))
                 .collect(Collectors.toList());
     }
 
     public List<User> getCommonFriends(Integer userId, Integer otherId) {
-        Set<Integer> userIds = getUserById(userId).getFriends();
-        Set<Integer> otherIds = getUserById(otherId).getFriends();
+        Set<Integer> userIds = getUserById(userId).getFriendIds();
+        Set<Integer> otherIds = getUserById(otherId).getFriendIds();
         return getAllUsers().stream()
                 .filter(user -> userIds.contains(user.getId()) && otherIds.contains(user.getId()))
                 .collect(Collectors.toList());
